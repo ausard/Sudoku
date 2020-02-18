@@ -1,22 +1,25 @@
-package oyg.sudoku;
+package org.sudoku;
 
-import java.lang.*;
-import java.util.*;
-import oyg.exceptions.*;
+import org.exceptions.OutOfRangeException;
+
+import java.util.ArrayList;
 //import oyg.sudoku.*;
 
 public class CreateSudokuGUI {
     //public MainForm form1;
-    /** Creates a new instance of CreateSudokuGUI */
+    /**
+     * Creates a new instance of CreateSudokuGUI
+     */
     private MainForm mainFormObject;
     private frame1 frame1Object;
     private Soduko SodukoBoard;
+
     public CreateSudokuGUI() {
         mainFormObject = new MainForm();
-        frame1Object = new frame1();        
+        frame1Object = new frame1();
         frame1Object.setMainFormObject(mainFormObject);
         //SodukoBoard = new Soduko();
-        
+
         frame1Object.setSodukoBoard(SodukoBoard);
         mainFormObject.setSodukobject(SodukoBoard);
         mainFormObject.setInitiatorObject(this);
@@ -25,33 +28,110 @@ public class CreateSudokuGUI {
         NewGame(30);
         //mainFormObject.setFrame1Object(frame1Object);
     }
-    
-    public void NewGame(int level){
-       
+
+    public static void main(String[] args) {
+
+        CreateSudokuGUI sudoku = new CreateSudokuGUI();
+    }
+
+    public void NewGame(int level) {
+
         SodukoBoard = new Soduko();
         frame1Object.setSodukoBoard(SodukoBoard);
         mainFormObject.setSodukobject(SodukoBoard);
-        
+
         SodukoBoard.SodukoBuild(level);
         frame1Object.printSudokuBoard();
-        
+
     }
-    public static void main(String[] args){
-        
-        CreateSudokuGUI sudoku = new CreateSudokuGUI();
-    }
-} 
-    
+}
+
 class frame1 extends javax.swing.JFrame {
-    
-    /** Creates new form frame1 */
+
+    // Variables declaration - do not modify
+    private OJLabel[][] jLabel1;
+    //private javax.swing.JLabel jLabel1;
+    private javax.swing.JSeparator jSeparator1;
+    // </editor-fold>                        
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator15;
+    private javax.swing.JSeparator jSeparator16;
+    private javax.swing.JSeparator jSeparator17;
+    private javax.swing.JSeparator jSeparator18;
+    private javax.swing.JSeparator jSeparator19;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator20;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JTextField jTextField1;
+    // End of variables declaration
+    private MainForm mainForm;
+    private Soduko SodukoBoard;
+    /**
+     * Creates new form frame1
+     */
     public frame1() {
-        
+
         initComponents();
-        
+
     }
-    
-                   
+
+    public void setMainFormObject(MainForm mainFormObject) {
+        mainForm = mainFormObject;
+    }
+
+    public void setSodukoBoard(Soduko sodukoObject) {
+        SodukoBoard = sodukoObject;
+    }
+
+    public void printSudokuBoard() {
+        int i, j;
+        String text;
+        int[][] tempSodukoBoard = SodukoBoard.StateBoard();
+        for (i = 0; i < jLabel1.length; i++) {
+            for (j = 0; j < jLabel1.length; j++) {
+                jLabel1[i][j].removeAllPotentials();
+                RefreshPotentials(jLabel1[i][j]);
+                jLabel1[i][j].setForeground(new java.awt.Color(0, 0, 0));
+                if (tempSodukoBoard[i][j] == 0) {
+                    jLabel1[i][j].setText("");
+                    java.awt.event.MouseListener[] listener = jLabel1[i][j].getMouseListeners();
+                    if (listener.length == 0) {
+                        jLabel1[i][j].addMouseListener(new java.awt.event.MouseAdapter() {
+                            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                jLabel1MouseClicked(evt);
+                            }
+                        });
+
+
+                    }
+                } else {
+                    java.awt.event.MouseListener[] listener = jLabel1[i][j].getMouseListeners();
+                    while (listener.length > 0) {
+                        jLabel1[i][j].removeMouseListener(listener[0]);
+                        listener = jLabel1[i][j].getMouseListeners();
+                    }
+                    text = String.valueOf(tempSodukoBoard[i][j]);
+                    jLabel1[i][j].setText(text);
+                    jLabel1[i][j].setForeground(new java.awt.Color(0, 102, 153));
+
+
+                }
+
+            }
+        }
+
+    }
+
     private void initComponents() {
         jTextField1 = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
@@ -86,9 +166,9 @@ class frame1 extends javax.swing.JFrame {
         setFocusTraversalPolicy(getFocusTraversalPolicy());
         setMaximizedBounds(new java.awt.Rectangle(0, 0, 0, 0));
         jSeparator1.setPreferredSize(new java.awt.Dimension(500, 2));
-        setBounds(300,100,-1,-1);
+        setBounds(300, 100, -1, -1);
         setResizable(false);
-        
+
         addKeyListener(new java.awt.event.KeyAdapter() {
             /*public void keyTyped(java.awt.event.KeyEvent evt) {
                 KeyboardTyped(evt);
@@ -97,7 +177,7 @@ class frame1 extends javax.swing.JFrame {
                 KeyboardPressed(evt);
             }
         });
-        
+
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 55, -1, -1));
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -167,15 +247,15 @@ class frame1 extends javax.swing.JFrame {
 
         jSeparator20.setPreferredSize(new java.awt.Dimension(500, 2));
         getContentPane().add(jSeparator20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 331, -1, -1));
-        
-        int i = 0,j=0;
-        for (i=0;i<jLabel1.length;i++) {
-            for (j=0;j<jLabel1.length;j++) {
-                jLabel1[i][j]=new OJLabel();
+
+        int i = 0, j = 0;
+        for (i = 0; i < jLabel1.length; i++) {
+            for (j = 0; j < jLabel1.length; j++) {
+                jLabel1[i][j] = new OJLabel();
                 jLabel1[i][j].setFont(new java.awt.Font("Serif", 1, 30));
                 jLabel1[i][j].setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel1[i][j].setText("");
-                int[] helperUserData = {i,j};
+                int[] helperUserData = {i, j};
                 jLabel1[i][j].setUserData(helperUserData);
                 jLabel1[i][j].setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
                 /*jLabel1[i][j].addMouseListener(new java.awt.event.MouseAdapter() {
@@ -183,215 +263,143 @@ class frame1 extends javax.swing.JFrame {
                         jLabel1MouseClicked(evt);
                     }
                 });*/
-                
-                getContentPane().add(jLabel1[i][j], new org.netbeans.lib.awtextra.AbsoluteConstraints((i*55), (j*55), 55, 55));
+
+                getContentPane().add(jLabel1[i][j],
+                    new org.netbeans.lib.awtextra.AbsoluteConstraints((i * 55), (j * 55), 55, 55));
 
             }
         }
         pack();
     }
-    // </editor-fold>                        
 
     private void KeyboardTyped(java.awt.event.KeyEvent evt) {
 // TODO add your handling code here:
         char pressedKey = evt.getKeyChar();
         int numSelected;
-        numSelected = (int)pressedKey;
-        if (numSelected>=1 && numSelected<=9){
+        numSelected = (int) pressedKey;
+        if (numSelected >= 1 && numSelected <= 9) {
             mainForm.setNumSelected(numSelected);
         }
-        
+
     }
+
     private void KeyboardPressed(java.awt.event.KeyEvent evt) {
 // TODO add your handling code here:
         char pressedKey = evt.getKeyChar();
         int numSelected;
-        numSelected = (int)pressedKey-48;
-        if (numSelected>=1 && numSelected<=9){
+        numSelected = (int) pressedKey - 48;
+        if (numSelected >= 1 && numSelected <= 9) {
             mainForm.setNumSelected(numSelected);
         }
-        
+
     }
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {                                     
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {
 // TODO add your handling code here:
-        
+
         Object j = new Object();
         j = evt.getSource();
         int buttonClicked;
         buttonClicked = evt.getButton();
-        if (buttonClicked==1){
+        if (buttonClicked == 1) {
             OJLabel l = new OJLabel();
-            l = (OJLabel)j;
+            l = (OJLabel) j;
             AddNumToBoard(l);
         }
-        if (buttonClicked==3){
+        if (buttonClicked == 3) {
             OJLabel l = new OJLabel();
-            l = (OJLabel)j;
+            l = (OJLabel) j;
             AddPotentialNumber(l);
         }
-        
- 
-    }                                    
-  
-    
-    private void doNothingEvent(java.awt.event.MouseEvent evt){
-    
+
+
     }
-    
-    private void AddNumToBoard(OJLabel jLabel){
+
+    private void doNothingEvent(java.awt.event.MouseEvent evt) {
+
+    }
+
+    private void AddNumToBoard(OJLabel jLabel) {
         int numSelected = mainForm.getNumberSelected();
         String numToAdd = String.valueOf(numSelected);
-        if (jLabel.getText().equals(numToAdd)){
+        if (jLabel.getText().equals(numToAdd)) {
             jLabel.setText("");
-            try{
-            SodukoBoard.AddToBoard(0, 
-                    ((int[])jLabel.getUserData())[0], 
-                    ((int[])jLabel.getUserData())[1]);
-            } catch(exArrayOutOfRange e){};
-        }
-        else{
+            try {
+                SodukoBoard.AddToBoard(0,
+                    ((int[]) jLabel.getUserData())[0],
+                    ((int[]) jLabel.getUserData())[1]);
+            } catch (OutOfRangeException e) {
+            }
+        } else {
             jLabel.setText(numToAdd);
-            try{
-            SodukoBoard.AddToBoard(numSelected, 
-                    ((int[])jLabel.getUserData())[0], 
-                    ((int[])jLabel.getUserData())[1]);
-            } catch(exArrayOutOfRange e){};
+            try {
+                SodukoBoard.AddToBoard(numSelected,
+                    ((int[]) jLabel.getUserData())[0],
+                    ((int[]) jLabel.getUserData())[1]);
+            } catch (OutOfRangeException e) {
+            }
         }
-        
+
         jLabel.removeAllPotentials();
         RefreshPotentials(jLabel);
-        
+
     }
+
     //this method takes the arraylist from the label object and creates
-    //potentials 
-    private void RefreshPotentials(OJLabel jLabel){
-        final int[] HORIZ = {1,15,30,45,1,1};
-        final int[] VERT = {1,1,1,1,20,40};
-        int i=0;
-        int horizLabel = ((int[])jLabel.getUserData())[0];
-        int vertLabel = ((int[])jLabel.getUserData())[1];
+    //potentials
+    private void RefreshPotentials(OJLabel jLabel) {
+        final int[] HORIZ = {1, 15, 30, 45, 1, 1};
+        final int[] VERT = {1, 1, 1, 1, 20, 40};
+        int i = 0;
+        int horizLabel = ((int[]) jLabel.getUserData())[0];
+        int vertLabel = ((int[]) jLabel.getUserData())[1];
         ArrayList potentials = jLabel.getPotentials();
         ArrayList oldPotentials = jLabel.getOldPotentials();
         //remove old potentials
-        for (i=0;i<oldPotentials.size();i++){
-            OJLabel oldPotentialLabel = (OJLabel)oldPotentials.get(i);
+        for (i = 0; i < oldPotentials.size(); i++) {
+            OJLabel oldPotentialLabel = (OJLabel) oldPotentials.get(i);
             getContentPane().remove(oldPotentialLabel);
         }
-        
+
         jLabel.removeAllOldPotentials();
         //add new potentials
-        for (i=0;i<potentials.size();i++){
-            OJLabel potentialLabel = (OJLabel)potentials.get(i);
-            getContentPane().add(potentialLabel, 
-                    new org.netbeans.lib.awtextra.AbsoluteConstraints
-                    (HORIZ[i]+horizLabel*55+3, VERT[i]+vertLabel*55+3, -1, -1));
-            
+        for (i = 0; i < potentials.size(); i++) {
+            OJLabel potentialLabel = (OJLabel) potentials.get(i);
+            getContentPane().add(potentialLabel,
+                new org.netbeans.lib.awtextra.AbsoluteConstraints
+                    (HORIZ[i] + horizLabel * 55 + 3, VERT[i] + vertLabel * 55 + 3, -1, -1));
+
         }
         //getContentPane().add(jLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 56, 55, 55));
         pack();
         getContentPane().repaint();
     }
+
     //this just add the label object to the parent label object container
     //does not draw the new object!!!
-    private void AddPotentialNumber(OJLabel jLabel){
-        
-        
+    private void AddPotentialNumber(OJLabel jLabel) {
+
+
         int currPotentials = jLabel.getNumberOfPotentials();
         int newPotential = 0;
         int numSelected = mainForm.getNumberSelected();
-        
+
         String numToAdd = String.valueOf(numSelected);
-        if (currPotentials==6){
+        if (currPotentials == 6) {
             jLabel.removePotential(5);
         }
-        
+
         OJLabel potentialLabel = new OJLabel();
         potentialLabel.setText(numToAdd);
         potentialLabel.setDirectParent(jLabel);
         int index = jLabel.isPotentialExist(potentialLabel);
-        if (index>=0){
+        if (index >= 0) {
             jLabel.removePotential(index);
-        }
-        else{
+        } else {
             jLabel.addPotential(potentialLabel);
-        }   
+        }
         RefreshPotentials(jLabel);
     }
-    public void setMainFormObject(MainForm mainFormObject){
-        mainForm = mainFormObject;
-    }
-    public void setSodukoBoard(Soduko sodukoObject){
-        SodukoBoard = sodukoObject;
-    }
-    
-    
-    public void printSudokuBoard(){
-        int i,j;
-        String text;
-        int[][] tempSodukoBoard = SodukoBoard.StateBoard();
-        for (i=0;i<jLabel1.length;i++) {
-            for (j=0;j<jLabel1.length;j++) {
-                jLabel1[i][j].removeAllPotentials();
-                RefreshPotentials(jLabel1[i][j]);
-                jLabel1[i][j].setForeground(new java.awt.Color(0, 0, 0));
-                if (tempSodukoBoard[i][j]==0){
-                    jLabel1[i][j].setText("");
-                    java.awt.event.MouseListener[] listener = jLabel1[i][j].getMouseListeners();
-                    if (listener.length==0){
-                        jLabel1[i][j].addMouseListener(new java.awt.event.MouseAdapter() {
-                            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                                jLabel1MouseClicked(evt);
-                            }
-                        });
-                        
-              
-                     }
-                }
-                else{
-                    java.awt.event.MouseListener[] listener = jLabel1[i][j].getMouseListeners();
-                    while (listener.length>0){
-                        jLabel1[i][j].removeMouseListener(listener[0]);
-                        listener = jLabel1[i][j].getMouseListeners();
-                    }
-                    text = String.valueOf(tempSodukoBoard[i][j]);
-                    jLabel1[i][j].setText(text);
-                    jLabel1[i][j].setForeground(new java.awt.Color(0, 102, 153));
-                    
-                        
-                       
-                }
-                
-            }
-        }
-        
-    }
-    // Variables declaration - do not modify 
-    private OJLabel[][] jLabel1;
-    //private javax.swing.JLabel jLabel1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator10;
-    private javax.swing.JSeparator jSeparator11;
-    private javax.swing.JSeparator jSeparator12;
-    private javax.swing.JSeparator jSeparator13;
-    private javax.swing.JSeparator jSeparator14;
-    private javax.swing.JSeparator jSeparator15;
-    private javax.swing.JSeparator jSeparator16;
-    private javax.swing.JSeparator jSeparator17;
-    private javax.swing.JSeparator jSeparator18;
-    private javax.swing.JSeparator jSeparator19;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator20;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTextField jTextField1;
-    // End of variables declaration    
-    private MainForm mainForm;
-    private Soduko SodukoBoard;
 }
 
 
@@ -399,99 +407,113 @@ class frame1 extends javax.swing.JFrame {
 ///////////////////////////////////////////////////////////////
 
 
-
-class OJLabel extends javax.swing.JLabel{
+class OJLabel extends javax.swing.JLabel {
     private Object UserData;
-    private int hotizIndex,vertIndex;
+    private int hotizIndex, vertIndex;
     //private int numOfPotentials;
     private ArrayList potentials = new ArrayList();
     private ArrayList oldPotentials = new ArrayList();
     private Object parent;
-    
-    public void setUserData(Object userdata){
+
+    public void setUserData(Object userdata) {
         UserData = userdata;
-        
+
     }
-    public Object getUserData(){
+
+    public Object getUserData() {
         return UserData;
     }
-    public void setHorizontalIndex(int index){
+
+    public void setHorizontalIndex(int index) {
         hotizIndex = index;
-        
+
     }
-    public int getHorizontalIndex(){
+
+    public int getHorizontalIndex() {
         return hotizIndex;
-        
+
     }
-    public void setVerticalIndex(int index){
+
+    public void setVerticalIndex(int index) {
         vertIndex = index;
-        
+
     }
-    public int getVerticalIndex(){
+
+    public int getVerticalIndex() {
         return vertIndex;
-        
+
     }
-/*
-    public void setNumberOfPotentials(int number){
-        numOfPotentials = number;
-        
-        
-    }*/
-    public int getNumberOfPotentials(){
+
+    /*
+        public void setNumberOfPotentials(int number){
+            numOfPotentials = number;
+
+
+        }*/
+    public int getNumberOfPotentials() {
         return potentials.size();
-        
+
     }
-    public boolean addPotential(javax.swing.JLabel label){
+
+    public boolean addPotential(javax.swing.JLabel label) {
         return potentials.add(label);
-  
+
     }
-    public void removePotential(int index){
+
+    public void removePotential(int index) {
         boolean res = oldPotentials.add(potentials.get(index));
         potentials.remove(index);
-        
+
     }
-    public boolean removePotential(javax.swing.JLabel label){
+
+    public boolean removePotential(javax.swing.JLabel label) {
         boolean res = oldPotentials.add(potentials.get(potentials.indexOf(label)));
         if (res) {
             return potentials.remove(label);
-        }
-        else{
+        } else {
             return false;
         }
-        
+
     }
-    public ArrayList getPotentials(){
+
+    public ArrayList getPotentials() {
         return potentials;
     }
-    public void setDirectParent(Object parentObject){
+
+    public void setDirectParent(Object parentObject) {
         parent = parentObject;
     }
+
     public Object getDirectParent() {
         return parent;
     }
-    public ArrayList getOldPotentials(){
+
+    public ArrayList getOldPotentials() {
         return oldPotentials;
     }
-    public void removeAllPotentials(){
-        int i=0;
+
+    public void removeAllPotentials() {
+        int i = 0;
         oldPotentials.clear();
-        for (i=0;i<potentials.size();i++){
+        for (i = 0; i < potentials.size(); i++) {
             oldPotentials.add(potentials.get(i));
         }
         potentials.clear();
-        
+
     }
-    public void removeAllOldPotentials(){
+
+    public void removeAllOldPotentials() {
         oldPotentials.clear();
     }
-    public int isPotentialExist(javax.swing.JLabel label){
+
+    public int isPotentialExist(javax.swing.JLabel label) {
         int currPotentialNumber = Integer.parseInt(label.getText());
         int potentialNumber;
-        int i=0;
-        for (i=0;i<getNumberOfPotentials();i++){
-            potentialNumber = Integer.parseInt(((OJLabel)potentials.get(i)).getText());
-            if (potentialNumber==currPotentialNumber){
-                
+        int i = 0;
+        for (i = 0; i < getNumberOfPotentials(); i++) {
+            potentialNumber = Integer.parseInt(((OJLabel) potentials.get(i)).getText());
+            if (potentialNumber == currPotentialNumber) {
+
                 return i;
             }
         }
