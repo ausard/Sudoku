@@ -6,6 +6,15 @@
     <groupId>org.sudoku</groupId>
     <artifactId>sudoku</artifactId>
     <version>1.0</version>
+    <configuration>
+      <archive>
+        <manifest>
+          <addClasspath>true</addClasspath>
+          <classpathPrefix>lib/</classpathPrefix>
+          <mainClass>org.sudoku.CreateSudokuGUI</mainClass>
+        </manifest>
+      </archive>
+    </configuration>
     <build>
       <plugins>
         <plugin>
