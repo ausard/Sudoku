@@ -6,4 +6,22 @@
     <groupId>org.sudoku</groupId>
     <artifactId>sudoku</artifactId>
     <version>1.0</version>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.13.0</version>
+        </plugin>
+      </plugins>
+    </build>
+    <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.13.0</version>
+        </plugin>
+      </plugins>
+    </reporting>
 </project>
